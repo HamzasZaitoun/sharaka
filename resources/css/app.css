@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 40 20% 96%;
+    --foreground: 0 0% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 15%;
+    --primary: 42 45% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 40 15% 90%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 42 45% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 15% 85%;
+    --input: 40 15% 85%;
+    --ring: 42 45% 45%;
+    --radius: 0.5rem;
+    --gold: 42 45% 45%;
+    --gold-light: 42 50% 55%;
+    --dark-brown: 30 20% 25%;
+    --cream: 40 20% 96%;
+    --hero-dark: 30 15% 28%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  .text-gold { color: hsl(var(--gold)); }
+  .bg-hero-dark { background-color: hsl(var(--hero-dark)); }
+  .font-display { font-family: 'Playfair Display', serif; }
+  
+  .font-century-bold {
+    font-family: 'Century Gothic Pro', sans-serif;
+    font-weight: bold;
+  }
+  
+  .font-century-reg {
+    font-family: 'Century Gothic Pro', sans-serif;
+    font-weight: normal;
+  }
+}
+
+@layer base {
+    a {
+        @apply no-underline;
+    }
+    
+    .nav-link {
+        @apply no-underline;
+        color: hsl(var(--foreground));
+    }
+    
+    .nav-link:hover {
+        @apply no-underline;
+        color: hsl(var(--gold));
+    }
+}
+
