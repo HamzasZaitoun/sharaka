@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PageResource\Pages;
+use App\Filament\Forms\Components\ImagePicker;
 use App\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -70,12 +71,11 @@ class PageResource extends Resource
                                         Forms\Components\TextInput::make('button_text')
                                             ->label('Button Text')
                                             ->visible(fn ($get) => $get('type') === 'hero'),
-                                        Forms\Components\FileUpload::make('background_image')
+                                        ImagePicker::make('background_image')
                                             ->label('Background Image')
-                                            ->image()
-                                            ->directory('pages/hero')
-                                            ->visibility('public')
-                                            ->visible(fn ($get) => $get('type') === 'hero'),
+                                            ->imageDirectory('images')
+                                            ->visible(fn ($get) => $get('type') === 'hero')
+                                            ->helperText('Select an image from public/images directory'),
                                         
                                         // Latest News Fields
                                         Forms\Components\TextInput::make('title')
@@ -122,11 +122,11 @@ class PageResource extends Resource
                                         Forms\Components\Repeater::make('gallery_items')
                                             ->label('Gallery Items')
                                             ->schema([
-                                                Forms\Components\FileUpload::make('image')
-                                                    ->image()
-                                                    ->directory('pages/gallery')
-                                                    ->visibility('public')
-                                                    ->required(),
+                                                ImagePicker::make('image')
+                                                    ->label('Image')
+                                                    ->imageDirectory('images')
+                                                    ->required()
+                                                    ->helperText('Select an image from public/images directory'),
                                                 Forms\Components\TextInput::make('title')
                                                     ->maxLength(255),
                                             ])

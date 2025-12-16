@@ -41,7 +41,7 @@
                             <div class="text-center">
                                 <div class="aspect-square rounded-lg overflow-hidden mb-2 bg-muted">
                                     @if(isset($item['image']))
-                                        <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['title'] ?? '' }}" class="w-full h-full object-cover" />
+                                        <img src="{{ asset($item['image']) }}" alt="{{ $item['title'] ?? '' }}" class="w-full h-full object-cover" />
                                     @else
                                         <div class="w-full h-full bg-gradient-to-br from-gold/20 to-gold/10"></div>
                                     @endif

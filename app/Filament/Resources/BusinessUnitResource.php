@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BusinessUnitResource\Pages;
 use App\Filament\Resources\BusinessUnitResource\RelationManagers;
+use App\Filament\Forms\Components\ImagePicker;
 use App\Models\BusinessUnit;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -52,18 +53,26 @@ class BusinessUnitResource extends Resource
                             ]),
                         Forms\Components\Tabs\Tab::make('Media')
                             ->schema([
-                                Forms\Components\FileUpload::make('logo')
-                                    ->image()
-                                    ->directory('logos')
-                                    ->visibility('public')
-                                    ->preserveFilenames(),
-                                Forms\Components\FileUpload::make('gallery')
-                                    ->image()
-                                    ->directory('units_gallery')
-                                    ->visibility('public')
-                                    ->multiple()
-                                    ->reorderable()
-                                    ->maxFiles(10),
+                                ImagePicker::make('logo')
+                                    ->label('Logo')
+                                    ->imageDirectory('images')
+                                    ->helperText('Select an image from public/images directory'),
+                                Forms\Components\Repeater::make('gallery')
+                                    ->label('Gallery Images')
+                                    ->schema([
+                                        ImagePicker::make('image')
+                                            ->label('Image')
+                                            ->imageDirectory('images')
+                                            ->required()
+                                            ->helperText('Select an image from public/images directory'),
+                                        Forms\Components\TextInput::make('title')
+                                            ->label('Title')
+                                            ->maxLength(255),
+                                    ])
+                                    ->defaultItems(0)
+                                    ->minItems(0)
+                                    ->maxItems(10)
+                                    ->collapsible(),
                             ]),
                         Forms\Components\Tabs\Tab::make('Settings')
                             ->schema([
@@ -80,8 +89,9 @@ class BusinessUnitResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('logo')
-                    ->circular(),
+                Tables\Columns\TextColumn::make('logo')
+                    ->formatStateUsing(fn ($state) => $state ? basename($state) : 'No logo')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->formatStateUsing(fn ($record) => $record->getTranslation('name', 'en'))
                     ->searchable()

@@ -17,7 +17,7 @@
                 <div class="w-full md:w-1/2 relative">
                     <div class="aspect-[4/3] rounded-lg overflow-hidden bg-muted/20">
                         @if($bgImage)
-                            <img src="{{ asset('storage/' . $bgImage) }}" alt="Commander Group" class="w-full h-full object-cover" />
+                            <img src="{{ asset($bgImage) }}" alt="Commander Group" class="w-full h-full object-cover" />
                         @else
                             <div class="w-full h-full bg-gradient-to-br from-gold/20 to-gold/10"></div>
                         @endif

@@ -51,7 +51,7 @@
                 @forelse($news as $item)
                     <div class="news-card bg-white rounded overflow-hidden shadow-lg hover:shadow-xl transition-all hover:-translate-y-2">
                         @if($item->image)
-                            <div class="news-image h-48 bg-cover bg-center" style="background-image: url('{{ asset('storage/' . $item->image) }}');"></div>
+                            <div class="news-image h-48 bg-cover bg-center" style="background-image: url('{{ asset($item->image) }}');"></div>
                         @else
                             <div class="news-image h-48 bg-gradient-to-br from-yellow-600 to-yellow-800"></div>
                         @endif
@@ -107,7 +107,7 @@
                     <div class="company-visual">
                         @if($unit->logo)
                             <div class="mb-6">
-                                <img src="{{ asset('storage/' . $unit->logo) }}" alt="{{ $unit->getTranslation('name', app()->getLocale(), 'en') }}" class="w-full h-64 object-cover rounded-lg bg-gray-900">
+                                <img src="{{ asset($unit->logo) }}" alt="{{ $unit->getTranslation('name', app()->getLocale(), 'en') }}" class="w-full h-64 object-cover rounded-lg bg-gray-900">
                             </div>
                         @endif
                         @if($unit->gallery && count($unit->gallery) > 0)
@@ -115,9 +115,9 @@
                                 @foreach(array_slice($unit->gallery ?? [], 0, 3) as $galleryItem)
                                     <div class="brand-card bg-gray-100 rounded-lg overflow-hidden p-6 flex flex-col items-center gap-4">
                                         @if(is_string($galleryItem))
-                                            <img src="{{ asset('storage/' . $galleryItem) }}" alt="Gallery" class="w-full h-32 object-cover rounded">
+                                            <img src="{{ asset($galleryItem) }}" alt="Gallery" class="w-full h-32 object-cover rounded">
                                         @elseif(is_array($galleryItem) && isset($galleryItem['image']))
-                                            <img src="{{ asset('storage/' . $galleryItem['image']) }}" alt="{{ $galleryItem['title'] ?? 'Gallery' }}" class="w-full h-32 object-cover rounded">
+                                            <img src="{{ asset($galleryItem['image']) }}" alt="{{ $galleryItem['title'] ?? 'Gallery' }}" class="w-full h-32 object-cover rounded">
                                             @if(isset($galleryItem['title']))
                                                 <div class="brand-logo font-century-bold text-sm text-brand-dark text-center">{{ $galleryItem['title'] }}</div>
                                             @endif

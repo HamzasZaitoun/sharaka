@@ -26,7 +26,7 @@
                     <div class="group">
                         <div class="aspect-[3/4] rounded-lg overflow-hidden mb-3 bg-muted">
                             @if($item->image)
-                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->getTranslation('title', app()->getLocale(), 'en') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                <img src="{{ asset($item->image) }}" alt="{{ $item->getTranslation('title', app()->getLocale(), 'en') }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                             @else
                                 <div class="w-full h-full bg-gradient-to-br from-gold/20 to-gold/10"></div>
                             @endif

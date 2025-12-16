@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Initialize General Settings first
+        $this->call(GeneralSettingsSeeder::class);
+        
         // Create 3 News items
         $newsItems = [
             [

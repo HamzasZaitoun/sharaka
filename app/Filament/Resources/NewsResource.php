@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
 use App\Filament\Resources\NewsResource\RelationManagers;
+use App\Filament\Forms\Components\ImagePicker;
 use App\Models\News;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -56,11 +57,10 @@ class NewsResource extends Resource
                                     ->required()
                                     ->unique(ignoreRecord: true)
                                     ->maxLength(255),
-                                Forms\Components\FileUpload::make('image')
-                                    ->image()
-                                    ->directory('news')
-                                    ->visibility('public')
-                                    ->preserveFilenames(),
+                                ImagePicker::make('image')
+                                    ->label('Featured Image')
+                                    ->imageDirectory('images')
+                                    ->helperText('Select an image from public/images directory'),
                                 Forms\Components\DateTimePicker::make('published_at')
                                     ->label('Published At'),
                             ]),
@@ -72,8 +72,9 @@ class NewsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->circular(),
+                Tables\Columns\TextColumn::make('image')
+                    ->formatStateUsing(fn ($state) => $state ? basename($state) : 'No image')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->formatStateUsing(fn ($record) => $record->getTranslation('title', 'en'))
                     ->searchable()

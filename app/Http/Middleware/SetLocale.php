@@ -15,10 +15,14 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = Session::get('locale', config('app.locale'));
+        // mcamara handles locale via route prefix, but we also support session-based switching
+        $locale = Session::get('locale');
         
-        if (in_array($locale, ['en', 'ar'])) {
+        if ($locale && in_array($locale, ['en', 'ar'])) {
             App::setLocale($locale);
+        } elseif (!App::getLocale() || !in_array(App::getLocale(), ['en', 'ar'])) {
+            // Fallback to default if mcamara didn't set it
+            App::setLocale(config('app.locale', 'en'));
         }
         
         return $next($request);
