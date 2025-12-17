@@ -1,9 +1,5 @@
-@extends('layouts.app')
-
-@section('title', $page->getTranslation('title', app()->getLocale(), 'en'))
-
-@section('content')
-    @if($page->content && is_array($page->content))
+<x-app-layout>
+    @if($page->content && is_array($page->content) && count($page->content) > 0)
         @foreach($page->content as $block)
             @switch($block['type'] ?? '')
                 @case('hero')
@@ -17,6 +13,10 @@
                     @break
             @endswitch
         @endforeach
+    @else
+        {{-- Default view if no blocks are added yet --}}
+        <div class="container mx-auto px-4 py-12">
+            <h1 class="text-4xl font-bold mb-6 text-center font-serif">{{ $page->title }}</h1>
+        </div>
     @endif
-@endsection
-
+</x-app-layout>

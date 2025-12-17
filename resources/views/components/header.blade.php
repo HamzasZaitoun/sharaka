@@ -1,12 +1,27 @@
 @php
-    $navItems = [
-        ['label' => 'HOME', 'href' => '#home'],
-        ['label' => 'ABOUT CDR', 'href' => '#about'],
-        ['label' => 'AL QUBTAN', 'href' => '#alqubtan'],
-        ['label' => 'CINEMA REELS', 'href' => '#cinema'],
-        ['label' => 'SHARAKA++', 'href' => '#sharaka'],
-        ['label' => 'EVENTS', 'href' => '#events'],
-    ];
+    $settings = app(App\Settings\GeneralSettings::class);
+    $navLinks = $settings->navbar_links ?? [];
+    
+    // Predetermin pages to avoid N+1 queries
+    $pageIds = collect($navLinks)->where('type', 'page')->pluck('page_id')->filter();
+    $pages = \App\Models\Page::whereIn('id', $pageIds)->get()->keyBy('id');
+
+    $navItems = collect($navLinks)->map(function ($item) use ($pages) {
+        $locale = app()->getLocale();
+        $label = $item['label_' . $locale] ?? $item['label_en'] ?? '';
+        
+        $href = '#';
+        if (($item['type'] ?? 'external') === 'page') {
+            $page = $pages[$item['page_id'] ?? 0] ?? null;
+            if ($page) {
+                $href = route('page.show', $page->slug);
+            }
+        } else {
+            $href = $item['url'] ?? '#';
+        }
+
+        return ['label' => $label, 'href' => $href];
+    });
 @endphp
 
 <header class="sticky top-0 z-50 bg-card shadow-sm">

@@ -3,6 +3,7 @@
 use App\Models\BrandSection;
 use App\Models\HeroSlide;
 use App\Models\NewsItem;
+use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -30,6 +31,12 @@ Route::group(
 
             return view('home', compact('heroSlides', 'newsItems', 'brandSections'));
         })->name('home');
+
+        // Dynamic page route
+        Route::get('/{slug}', function ($slug) {
+            $page = Page::where('slug', $slug)->where('is_published', true)->firstOrFail();
+            return view('pages.show', compact('page'));
+        })->name('page.show');
     }
 );
 

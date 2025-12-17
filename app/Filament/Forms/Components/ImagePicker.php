@@ -51,7 +51,7 @@ class ImagePicker extends Select
         return $options;
     }
 
-    public function getOptionLabelUsing(?callable $callback): static
+    public function getOptionLabelUsing(?\Closure $callback): static
     {
         return parent::getOptionLabelUsing($callback);
     }
