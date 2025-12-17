@@ -5,6 +5,8 @@ A modern, multilingual content management system built with Laravel 10 and Filam
 ## 🚀 Features
 
 - **Dynamic Page Builder**: Create custom pages with reusable content blocks (Hero Sections, Latest News, Brand Sections)
+- **Dynamic Navigation**: Fully editable navigation menu via Admin Panel
+- **Global Settings**: Manage site-wide settings (Logo, Footer, Social Media) without touching code
 - **Multilingual Support**: Full Arabic/English localization with RTL/LTR support using Spatie Laravel Translatable
 - **Filament Admin Panel**: Beautiful, intuitive admin interface for content management
 - **News Management**: Publish and manage news articles with translatable content
@@ -173,6 +175,16 @@ The application supports Arabic and English with automatic RTL/LTR switching:
 2. Add or edit business units
 3. Upload logo and gallery images
 4. Set sort order for display sequence
+
+### Managing General Settings & Navigation
+1. Navigate to **Settings** in the admin panel.
+2. Under the **Navigation** tab, you can add or edit menu items.
+3. Select **Type**:
+   - **External**: For links like `#about` or `https://google.com`.
+   - **Page**: To link directly to a dynamic page you created.
+4. Drag and drop items to reorder the navigation menu.
+5. Save changes to update the website header instantly.
+6. You can also update Logo text, Footer details, and Social Media links here.
 
 ## 🎨 Customization
 

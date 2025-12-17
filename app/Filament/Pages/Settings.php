@@ -234,4 +234,14 @@ class Settings extends Page
                 ->send();
         }
     }
+    use \Filament\Pages\Concerns\InteractsWithFormActions;
+
+    public function getFormActions(): array
+    {
+        return [
+            \Filament\Actions\Action::make('save')
+                ->label('Save changes')
+                ->submit('save'),
+        ];
+    }
 }
