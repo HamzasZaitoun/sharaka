@@ -1,74 +1,61 @@
-@php
-    $settings = app(\App\Settings\GeneralSettings::class);
-    $locale = app()->getLocale();
-    $footerPhone = $settings->footer_phone ?? '+962 7 7554 1450';
-    $footerEmail = $settings->footer_email ?? 'support@CDR.com';
-    $footerCopyright = $settings->footer_copyright ?? 'All the content is Owned by CDR';
-    $aboutTitle = $settings->footer_about_title[$locale] ?? $settings->footer_about_title['en'] ?? 'ABOUT US';
-    $aboutLinks = $settings->footer_about_links ?? [];
-    $contactTitle = $settings->footer_contact_title[$locale] ?? $settings->footer_contact_title['en'] ?? 'CONTACT US';
-    $newsletterTitle = $settings->footer_newsletter_title[$locale] ?? $settings->footer_newsletter_title['en'] ?? 'Subscribe to our News Letter to Know About our Best Deals!';
-    $newsletterButton = $settings->footer_newsletter_button[$locale] ?? $settings->footer_newsletter_button['en'] ?? 'SUBMIT';
-    $newsletterPlaceholder = $settings->footer_newsletter_placeholder[$locale] ?? $settings->footer_newsletter_placeholder['en'] ?? 'Email Address';
-    $socialLinks = $settings->social_media_links ?? [];
-    
-    $socialIcons = [
-        'facebook' => '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
-        'twitter' => '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>',
-        'instagram' => '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>',
-        'youtube' => '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
-        'linkedin' => '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
-    ];
-@endphp
-
-<footer class="bg-muted pt-12 pb-6">
+<footer class="bg-gray-900 text-white py-12 mt-auto">
     <div class="container">
-        <div class="flex items-center gap-4 mb-8">
-            <button class="flex items-center gap-2 bg-secondary text-secondary-foreground px-4 py-2 rounded text-sm">
-                <span>✓</span><span>Like</span><span class="text-secondary-foreground/70">157k</span>
-            </button>
-            <span class="text-muted-foreground text-sm">Connect with us on Facebook!</span>
-        </div>
-        <div class="flex items-center gap-4 mb-8 justify-end">
-            @foreach($socialLinks as $social)
-                @if(isset($social['platform']) && isset($social['url']))
-                    <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" class="text-muted-foreground hover:text-gold transition-colors">
-                        {!! $socialIcons[$social['platform']] ?? '' !!}
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold text-gold font-display">CR</span>
+                    <div class="text-xs leading-tight">
+                        <span class="font-semibold text-white">COMMANDER</span>
+                        <br />
+                        <span class="text-gray-400">GROUP</span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm">
+                    Leading Jordanian holding and business incubator group.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="text-gold font-display font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#about" class="hover:text-gold transition-colors">About Us</a></li>
+                    <li><a href="#alqubtan" class="hover:text-gold transition-colors">Al Qubtan</a></li>
+                    <li><a href="#cinema" class="hover:text-gold transition-colors">Cinema Reels</a></li>
+                    <li><a href="#sharaka" class="hover:text-gold transition-colors">Sharaka++</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-gold font-display font-bold mb-4">Contact</h3>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li class="flex items-center gap-2">
+                        <x-heroicon-o-phone class="w-4 h-4" />
+                        <a href="tel:+96279808180" class="hover:text-gold">+962 7 9808 180</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <x-heroicon-o-map-pin class="w-4 h-4" />
+                        <span>Amman, Jordan</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-gold font-display font-bold mb-4">Follow Us</h3>
+                <div class="flex gap-4">
+                    <!-- Social icons placeholders -->
+                    <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gold hover:text-white transition-colors">
+                        <span class="sr-only">Facebook</span>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
                     </a>
-                @endif
-            @endforeach
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 border-t border-border">
-            <div>
-                <h4 class="font-semibold text-foreground mb-4">{{ $aboutTitle }}</h4>
-                <ul class="space-y-2 text-sm text-muted-foreground">
-                    @foreach($aboutLinks as $link)
-                        <li>
-                            <a href="{{ $link['href'] }}" class="hover:text-gold transition-colors">
-                                {{ $link['label_' . $locale] ?? $link['label_en'] ?? '' }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold text-foreground mb-4">{{ $contactTitle }}</h4>
-                <ul class="space-y-2 text-sm text-muted-foreground">
-                    <li>Call: {{ $footerPhone }}</li>
-                    <li>Email: {{ $footerEmail }}</li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold text-foreground mb-4">{{ $newsletterTitle }}</h4>
-                <div class="flex gap-2">
-                    <input type="email" placeholder="{{ $newsletterPlaceholder }}" class="flex-1 px-4 py-2 rounded border border-border bg-background text-sm outline-none focus:border-gold" />
-                    <button class="px-6 py-2 bg-secondary text-secondary-foreground text-sm font-medium rounded hover:bg-secondary/80 transition-colors">{{ $newsletterButton }}</button>
+                    <a href="#" class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gold hover:text-white transition-colors">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465 1.067-.047 1.409-.06 3.809-.06zm1.493 1.33c-2.403 0-2.698.01-3.647.054-.977.046-1.505.213-1.855.349-.465.18-.797.396-1.146.745-.35.35-.566.683-.746 1.15-.136.35-.303.877-.349 1.854-.045.95-.055 1.245-.055 3.648 0 2.404.01 2.698.055 3.647.046.978.213 1.506.349 1.855.18.465.396.797.745 1.147.35.35.683.566 1.15.746.35.136.877.303 1.854.349.95.045 1.245.055 3.648.055 2.404 0 2.698-.01 3.647-.055.978-.046 1.506-.213 1.855-.349.465-.18.797-.396 1.147-.746.35-.35.566-.683.746-1.15.136-.35.303-.877.349-1.854.045-.95.055-1.245.055-3.648 0-2.403-.01-2.698-.055-3.647-.046-.977-.213-1.505-.349-1.855-.18-.465-.396-.797-.746-1.146-.35-.35-.683-.566-1.15-.746-.35-.136-.877-.303-1.855-.349-.949-.045-1.244-.055-3.647-.055zm-1.745 3.903a3.507 3.507 0 110 7.014 3.507 3.507 0 010-7.014zm0 1.33a2.176 2.176 0 100 4.354 2.176 2.176 0 000-4.354zm5.008-5.323a.885.885 0 110 1.77.885.885 0 010-1.77z" clip-rule="evenodd" /></svg>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="text-center pt-6 border-t border-border">
-            <p class="text-sm text-muted-foreground">{{ $footerCopyright }} © {{ date('Y') }}</p>
+        <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+            <p>&copy; {{ date('Y') }} Commander Group. All rights reserved.</p>
         </div>
     </div>
 </footer>
-

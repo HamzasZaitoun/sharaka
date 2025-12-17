@@ -82,12 +82,12 @@ A modern, multilingual content management system built with Laravel 10 and Filam
    ```
 
 ## 👤 Default Admin Credentials
-
-After running the seeder, you can log in with:
-- **Email**: `admin@example.com`
-- **Password**: `password`
-
-**⚠️ Important**: Change these credentials immediately in production!
+ 
+ After running the migration and creating the user, you can log in with:
+ - **Email**: `admin@admin.com`
+ - **Password**: `password`
+ 
+ **⚠️ Important**: Change these credentials immediately in production!
 
 ## 📁 Project Structure
 

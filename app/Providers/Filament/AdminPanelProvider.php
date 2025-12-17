@@ -53,6 +53,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->plugin(\Filament\SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'ar']));
     }
 }

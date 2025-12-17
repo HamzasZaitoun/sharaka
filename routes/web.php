@@ -1,64 +1,39 @@
 <?php
 
-use App\Models\News;
-use App\Models\BusinessUnit;
-use App\Models\Page;
+use App\Models\BrandSection;
+use App\Models\HeroSlide;
+use App\Models\NewsItem;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
-// Language switcher
-Route::get('/lang/{locale}', function ($locale) {
-    if (in_array($locale, ['en', 'ar'])) {
-        Session::put('locale', $locale);
-        app()->setLocale($locale);
-    }
-    return redirect()->back();
-})->name('locale.switch');
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'web']
+    ],
+    function () {
+        Route::get('/', function () {
+            $heroSlides = HeroSlide::where('is_active', true)->orderBy('sort_order')->get();
+            $newsItems = NewsItem::orderBy('published_at', 'desc')->take(6)->get();
+            // We want specific order: Al Qubtan, Cinema Reels, Sharaka++. 
+            // We can fetch all and sort, or just fetch all.
+            // Let's assume the user adds them and we show them.
+            // Or we can try to order by ID or a 'sort_order' if we added it (we didn't add sort_order to BrandSection, only BrandItem).
+            // Default ID order.
+            $brandSections = BrandSection::where('is_active', true)->get();
 
-// Homepage - use Page model if exists, otherwise fallback
-Route::get('/', function () {
-    $page = Page::where('slug', 'home')->where('is_published', true)->first();
-    
-    if ($page) {
-        return view('pages.show', compact('page'));
+            return view('home', compact('heroSlides', 'newsItems', 'brandSections'));
+        })->name('home');
     }
-    
-    // Fallback to old view
-    $news = News::whereNotNull('published_at')
-        ->where('published_at', '<=', now())
-        ->orderBy('published_at', 'desc')
-        ->take(5)
-        ->get();
-    
-    $businessUnits = BusinessUnit::ordered()->get();
-    
-    return view('home', compact('news', 'businessUnits'));
-})->name('home');
+);
 
-// News routes (must come before dynamic page routes)
-Route::get('/news/{slug}', function ($slug) {
-    $news = News::where('slug', $slug)->firstOrFail();
-    return view('news.show', compact('news'));
-})->name('news.show');
-
-// Dynamic page routes (must be last)
-Route::get('/{slug}', function ($slug) {
-    // Exclude routes that should not be handled by pages
-    if (in_array($slug, ['admin', 'lang', 'news'])) {
-        abort(404);
-    }
-    
-    $page = Page::where('slug', $slug)->where('is_published', true)->firstOrFail();
-    return view('pages.show', compact('page'));
-})->name('page.show');
+// Fallback for 404 if not caught by localization or other routes
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
