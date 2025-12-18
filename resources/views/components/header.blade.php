@@ -80,19 +80,19 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-white border-b border-gray-200">
-        <div class="container py-3">
-            <ul class="flex items-center justify-center gap-6 list-none m-0 p-0 flex-wrap">
+    <nav class="bg-white border-b border-gray-200 h-[34px] flex items-center justify-center">
+        <div class="container h-full flex items-center justify-center">
+            <ul class="flex items-center justify-center gap-0 list-none m-0 p-0 h-full">
                 @foreach($navItems as $item)
-                    <li>
+                    <li class="flex items-center h-full">
                         <a
                             href="{{ $item['href'] }}"
-                            class="nav-text hover:text-gold transition-colors no-underline uppercase tracking-wide"
+                            class="nav-text hover:text-gold transition-colors no-underline uppercase tracking-wide px-4 flex items-center h-full pt-1"
                         >
                             {{ $item['label'] }}
                         </a>
                         @if(!$loop->last)
-                            <span class="text-gray-300 ml-6">|</span>
+                            <span class="text-gray-300 mx-2 mb-1">|</span>
                         @endif
                     </li>
                 @endforeach
