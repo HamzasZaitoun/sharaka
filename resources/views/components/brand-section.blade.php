@@ -3,11 +3,11 @@
 @if($section)
 <section id="{{ $section->key }}" class="py-12 bg-white">
     <!-- Full Width Section Header -->
-    <div class="w-full bg-[#b8b8b8] py-4 mb-12">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-center gap-6">
+    <div class="w-full bg-[#dbdbdb] h-[34px] mb-12 flex items-center justify-center">
+        <div class="container mx-auto px-4 h-full flex items-center justify-center">
+            <div class="flex items-center justify-center gap-6 h-full">
                 <div class="h-px w-12 bg-gold"></div>
-                <h2 class="section-title text-center tracking-[0.2em] uppercase text-[#38393d]">
+                <h2 class="section-title text-center tracking-[0.2em] uppercase text-[#38393d] text-[25pt] leading-none">
                     {{ $section->title }}
                 </h2>
                 <div class="h-px w-12 bg-gold"></div>
