@@ -24,69 +24,80 @@
     });
 @endphp
 
-<header class="sticky top-0 z-50 bg-card shadow-sm">
+<header class="sticky top-0 z-50 bg-white shadow-sm">
     <!-- Top bar -->
-    <div class="bg-muted/50 py-2">
+    <div class="bg-white py-3 border-b border-gray-200">
         <div class="container flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <!-- Logo -->
-                <a href="/" class="flex items-center gap-2 no-underline">
-                    <span class="text-2xl font-bold text-gold font-display">CR</span>
-                    <div class="text-xs leading-tight">
-                        <span class="font-semibold text-foreground">COMMANDER</span>
-                        <br />
-                        <span class="text-muted-foreground">GROUP</span>
-                    </div>
+            <!-- Logo -->
+            <div class="flex items-center gap-4">
+                <a href="/" class="flex items-center no-underline">
+                    <img src="{{ asset('images/logo.png') }}" alt="CDR Commander Group" class="h-12 w-auto" />
                 </a>
             </div>
 
             <!-- Search bar -->
-            <div class="hidden md:flex items-center bg-background border border-border rounded-full px-4 py-2 w-64">
+            <div class="hidden md:flex items-center bg-white border border-gray-300 rounded-full px-4 py-2 w-72">
                 <input
                     type="text"
-                    placeholder="What are you looking for..."
-                    class="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground border-none focus:ring-0"
+                    placeholder="{{ __('site.What are you looking for...') }}"
+                    class="flex-1 bg-transparent text-sm outline-none placeholder:text-gray-400 border-none focus:ring-0 font-century"
                 />
-                <x-heroicon-o-magnifying-glass class="w-4 h-4 text-gold" />
+                <x-heroicon-o-magnifying-glass class="w-4 h-4 text-gray-400" />
             </div>
 
-            <!-- Contact info -->
-            <div class="hidden lg:flex items-center gap-6 text-sm">
-                <a href="tel:+96279808180" class="flex items-center gap-2 text-foreground hover:text-gold transition-colors no-underline">
-                    <x-heroicon-o-phone class="w-4 h-4" />
-                    <span>+962 7 9808 180</span>
-                </a>
-                <a href="#" class="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors no-underline">
-                    <x-heroicon-o-map-pin class="w-4 h-4" />
-                    <span>Locations</span>
-                </a>
+            <!-- Right side: Language, Locations, Phone, Welcome -->
+            <div class="hidden lg:flex items-center gap-4 text-sm">
                 <!-- Language Switcher -->
-                <div class="flex items-center gap-2">
-                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        @if($localeCode !== App::getLocale())
-                            <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" class="text-sm font-medium hover:text-gold transition-colors uppercase">
-                                {{ $localeCode }}
-                            </a>
-                        @endif
-                    @endforeach
-                </div>
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    @if($localeCode !== App::getLocale())
+                        <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" class="text-sm font-century text-gray-600 hover:text-gold transition-colors">
+                            {{ $localeCode === 'ar' ? 'عربي' : 'EN' }}
+                        </a>
+                    @endif
+                @endforeach
+                
+                <span class="text-gray-300">|</span>
+                
+                <!-- Locations -->
+                <a href="#" class="flex items-center gap-1 text-gray-600 hover:text-gold transition-colors no-underline font-century">
+                    <x-heroicon-s-map-pin class="w-4 h-4 text-red-500" />
+                    <span>{{ __('site.Locations') }}</span>
+                </a>
+                
+                <!-- Phone -->
+                <a href="tel:+96279808180" class="flex items-center gap-2 text-gray-600 hover:text-gold transition-colors no-underline font-century border border-gray-300 rounded-full px-3 py-1">
+                    <x-heroicon-s-phone class="w-4 h-4" />
+                    <span>+962 7 9808 1801</span>
+                </a>
+                
+                <!-- Welcome -->
+                 <!-- <div class="flex items-center gap-1 text-gray-600 font-century">
+                    <x-heroicon-s-user class="w-4 h-4" />
+                    <span>{{ __('site.Welcome Amal') }}</span>
+                </div>  -->
             </div>
         </div>
     </div>
 
     <!-- Navigation -->
-    <nav class="container py-4">
-        <ul class="flex items-center justify-center gap-8 list-none m-0 p-0">
-            @foreach($navItems as $item)
-                <li>
-                    <a
-                        href="{{ $item['href'] }}"
-                        class="text-sm font-medium text-foreground hover:text-gold transition-colors tracking-wide no-underline"
-                    >
-                        {{ $item['label'] }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
+    <nav class="bg-white border-b border-gray-200">
+        <div class="container py-3">
+            <ul class="flex items-center justify-center gap-6 list-none m-0 p-0 flex-wrap">
+                @foreach($navItems as $item)
+                    <li>
+                        <a
+                            href="{{ $item['href'] }}"
+                            class="nav-text hover:text-gold transition-colors no-underline uppercase tracking-wide"
+                        >
+                            {{ $item['label'] }}
+                        </a>
+                        @if(!$loop->last)
+                            <span class="text-gray-300 ml-6">|</span>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </nav>
 </header>
+

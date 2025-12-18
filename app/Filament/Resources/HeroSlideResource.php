@@ -33,18 +33,23 @@ class HeroSlideResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')
+                    ->label(__('site.Title'))
                     ->required()
                     ->maxLength(255),
                 Textarea::make('description')
+                    ->label(__('site.Description'))
                     ->rows(3),
                 FileUpload::make('image_path')
+                    ->label(__('site.Image'))
                     ->image()
                     ->required()
                     ->directory('hero-slides'),
                 TextInput::make('sort_order')
+                    ->label(__('site.Sort Order'))
                     ->numeric()
                     ->default(0),
                 Toggle::make('is_active')
+                    ->label(__('site.Is Active'))
                     ->default(true),
             ]);
     }
@@ -53,11 +58,20 @@ class HeroSlideResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image_path'),
-                TextColumn::make('title')->searchable(),
-                ToggleColumn::make('is_active'),
-                TextColumn::make('sort_order')->sortable(),
-                TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                ImageColumn::make('image_path')
+                    ->label(__('site.Image')),
+                TextColumn::make('title')
+                    ->label(__('site.Title'))
+                    ->searchable(),
+                ToggleColumn::make('is_active')
+                    ->label(__('site.Is Active')),
+                TextColumn::make('sort_order')
+                    ->label(__('site.Sort Order'))
+                    ->sortable(),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -71,6 +85,21 @@ class HeroSlideResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('site.Hero Slides');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('site.Hero Slide');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('site.Hero Slides');
     }
 
     public static function getRelations(): array

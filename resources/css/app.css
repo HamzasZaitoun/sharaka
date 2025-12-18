@@ -2,78 +2,269 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Custom Font Faces */
+@font-face {
+  font-family: 'Microsoft Uighur';
+  src: url('/fonts/Microsoftuighur.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Century Gothic';
+  src: url('/fonts/centurygothic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @layer base {
   :root {
-    --background: 40 20% 96%;
-    --foreground: 0 0% 15%;
+    --background: 0 0% 95%;
+    /* Light gray background */
+    --foreground: 0 0% 22%;
+    /* #38393d equivalent */
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 15%;
+    --card-foreground: 0 0% 22%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 15%;
-    --primary: 42 45% 45%;
+    --popover-foreground: 0 0% 22%;
+    --primary: 42 76% 50%;
+    /* Gold color #c9a227 */
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 40%;
+    --secondary: 0 0% 50%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 40 15% 90%;
+    --muted: 0 0% 85%;
     --muted-foreground: 0 0% 45%;
-    --accent: 42 45% 45%;
+    --accent: 42 76% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-    --border: 40 15% 85%;
-    --input: 40 15% 85%;
-    --ring: 42 45% 45%;
-    --radius: 0.5rem;
-    --gold: 42 45% 45%;
-    --gold-light: 42 50% 55%;
-    --dark-brown: 30 20% 25%;
-    --cream: 40 20% 96%;
-    --hero-dark: 30 15% 28%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --ring: 42 76% 50%;
+    --radius: 0.25rem;
+    --gold: 42 76% 50%;
+    --gold-light: 42 76% 60%;
+    --dark-brown: 30 15% 28%;
+    --hero-dark: 0 0% 28%;
+    /* Dark gray for hero section */
+    --section-header-bg: 0 0% 75%;
+    /* Gray for section headers */
+    --brand-dark: #38393d;
   }
 }
 
 @layer base {
-  * { @apply border-border; }
+  * {
+    @apply border-border;
+  }
+
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Century Gothic', 'Inter', sans-serif;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Century Gothic', 'Playfair Display', serif;
+    font-weight: bold;
+  }
+
+  a {
+    @apply no-underline;
   }
 }
 
 @layer utilities {
-  .text-gold { color: hsl(var(--gold)); }
-  .bg-hero-dark { background-color: hsl(var(--hero-dark)); }
-  .font-display { font-family: 'Playfair Display', serif; }
-  
+
+  /* Gold color utilities */
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+
+  .border-gold {
+    border-color: hsl(var(--gold));
+  }
+
+  /* Hero dark background */
+  .bg-hero-dark {
+    background-color: hsl(var(--hero-dark));
+  }
+
+  /* Section header gray background */
+  .bg-section-header {
+    background-color: #b8b8b8;
+  }
+
+  /* Font family utilities */
+  .font-display {
+    font-family: 'Microsoft Uighur', 'Playfair Display', serif;
+  }
+
+  .font-uighur {
+    font-family: 'Microsoft Uighur', serif;
+  }
+
+  .font-century {
+    font-family: 'Century Gothic', sans-serif;
+  }
+
   .font-century-bold {
-    font-family: 'Century Gothic Pro', sans-serif;
+    font-family: 'Century Gothic', sans-serif;
     font-weight: bold;
   }
-  
+
   .font-century-reg {
-    font-family: 'Century Gothic Pro', sans-serif;
+    font-family: 'Century Gothic', sans-serif;
     font-weight: normal;
+  }
+
+  /* Typography for specific design elements */
+
+  /* Site Map / Navigation: Microsoft Uighur, 19pt, #38393d */
+  .nav-text {
+    font-family: 'Microsoft Uighur', serif;
+    font-size: 19px;
+    color: #38393d;
+    font-weight: normal;
+  }
+
+  /* Section Titles: Microsoft Uighur, 25pt, #38393d */
+  .section-title {
+    font-family: 'Microsoft Uighur', serif;
+    font-size: 25px;
+    color: #38393d;
+    font-weight: normal;
+  }
+
+  /* Brand Section Title: Century Gothic BOLD, 21pt, #38393d */
+  .brand-title {
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 21px;
+    color: #38393d;
+    font-weight: bold;
+  }
+
+  /* Section Text: Century Gothic Regular, 18pt, #38393d */
+  .section-text {
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 18px;
+    color: #38393d;
+    font-weight: normal;
+    line-height: 1.6;
+  }
+
+  /* News Title: Century Gothic BOLD, 10pt, #38393d */
+  .news-title {
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 10px;
+    color: #38393d;
+    font-weight: bold;
+  }
+
+  /* News Text: Century Gothic Regular, 9pt, #38393d */
+  .news-text {
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 9px;
+    color: #38393d;
+    font-weight: normal;
+  }
+
+  .hero-title {
+    font-family: 'Microsoft Uighur', serif;
+    font-size: 48px;
+    color: hsl(var(--gold));
+    font-style: italic;
+  }
+
+  .hero-text {
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 14px;
+    color: #e8e8e8;
+    line-height: 1.7;
+  }
+
+  /* Navigation link styling */
+  .nav-link {
+    @apply no-underline;
+    color: #38393d;
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 14px;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    @apply no-underline;
+    color: hsl(var(--gold));
+  }
+
+  /* Button styles */
+  .btn-outline {
+    border: 1px solid #38393d;
+    color: #38393d;
+    background: transparent;
+    padding: 8px 24px;
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    transition: all 0.2s ease;
+  }
+
+  .btn-outline:hover {
+    background: hsl(var(--gold));
+    border-color: hsl(var(--gold));
+    color: white;
+  }
+
+  .btn-dark {
+    background: #38393d;
+    color: white;
+    padding: 8px 24px;
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    transition: all 0.2s ease;
+  }
+
+  .btn-dark:hover {
+    background: #222;
   }
 }
 
-@layer base {
-    a {
-        @apply no-underline;
-    }
-    
-    .nav-link {
-        @apply no-underline;
-        color: hsl(var(--foreground));
-    }
-    
-    .nav-link:hover {
-        @apply no-underline;
-        color: hsl(var(--gold));
-    }
+/* RTL Support */
+html.rtl,
+html[dir="rtl"] {
+  direction: rtl;
 }
 
+html.rtl body,
+html[dir="rtl"] body {
+  text-align: right;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

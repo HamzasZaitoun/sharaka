@@ -26,32 +26,50 @@ class GeneralSettingsSeeder extends Seeder
                 [
                     'label_en' => 'HOME',
                     'label_ar' => 'الرئيسية',
-                    'href' => '/'
+                    'type' => 'external',
+                    'url' => '/'
                 ],
                 [
                     'label_en' => 'ABOUT CDR',
-                    'label_ar' => 'من نحن',
-                    'href' => '#about'
+                    'label_ar' => 'عن CDR',
+                    'type' => 'external',
+                    'url' => '#about'
                 ],
                 [
                     'label_en' => 'AL QUBTAN',
                     'label_ar' => 'القبطان',
-                    'href' => '#al-qubtan'
+                    'type' => 'external',
+                    'url' => '#qubtan'
                 ],
                 [
                     'label_en' => 'CINEMA REELS',
                     'label_ar' => 'سينما ريلز',
-                    'href' => '#cinema-reels'
+                    'type' => 'external',
+                    'url' => '#cinema'
                 ],
                 [
                     'label_en' => 'SHARAKA++',
-                    'label_ar' => 'شركاء++',
-                    'href' => '#sharaka'
+                    'label_ar' => 'شراكة++',
+                    'type' => 'external',
+                    'url' => '#sharaka'
                 ],
                 [
                     'label_en' => 'EVENTS',
                     'label_ar' => 'الفعاليات',
-                    'href' => '#events'
+                    'type' => 'external',
+                    'url' => '#events'
+                ],
+                [
+                    'label_en' => 'NEWSLETTERS',
+                    'label_ar' => 'النشرات الإخبارية',
+                    'type' => 'external',
+                    'url' => '#newsletters'
+                ],
+                [
+                    'label_en' => 'CONTACT US',
+                    'label_ar' => 'اتصل بنا',
+                    'type' => 'external',
+                    'url' => '#contact'
                 ],
             ],
             'footer_phone' => '+962 7 7554 1450',

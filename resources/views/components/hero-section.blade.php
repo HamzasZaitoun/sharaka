@@ -1,58 +1,66 @@
 @props(['slides'])
 
-<section id="home" className="bg-hero-dark relative overflow-hidden" x-data="{ 
+@php
+    $slidesData = collect($slides)->map(function($slide) {
+        $imagePath = $slide->image_path;
+        if (str_starts_with($imagePath, 'images/')) {
+            $imageUrl = '/' . $imagePath;
+        } else {
+            $imageUrl = '/storage/' . $imagePath;
+        }
+        
+        return [
+            'id' => $slide->id,
+            'image_path' => $imageUrl,
+        ];
+    });
+@endphp
+
+@if($slides->count() > 0)
+<section id="home" class="relative w-full max-w-[98%] 2xl:max-w-[95%] mx-auto mt-2 md:mt-4 rounded-2xl overflow-hidden shadow-2xl" x-data="{ 
     activeSlide: 0, 
-    slides: {{ $slides->toJson() }},
+    slides: {{ $slidesData->toJson() }},
     next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
     prev() { this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length }
 }">
-    <div class="container py-16">
-        <template x-if="slides.length > 0">
-        <div class="flex items-center gap-8">
-            <!-- Navigation arrow -->
-            <button @click="prev()" class="hidden md:flex shrink-0 w-10 h-10 rounded-full border border-muted-foreground/30 items-center justify-center text-muted-foreground/50 hover:border-gold hover:text-gold transition-colors">
-                <x-heroicon-o-chevron-left class="w-5 h-5" />
-            </button>
-
-            <!-- Content area -->
-            <div class="flex-1 flex flex-col md:flex-row items-center gap-8">
-                <!-- Image carousel -->
-                <div class="w-full md:w-1/2 relative">
-                    <div class="aspect-[4/3] rounded-lg overflow-hidden bg-muted/20">
-                        <img 
-                            :src="'/storage/' + slides[activeSlide].image_path" 
-                            :alt="slides[activeSlide].title" 
-                            class="w-full h-full object-cover transition-opacity duration-500"
-                        />
-                    </div>
-                    <!-- Overlay with branding -->
-                    <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-                        <div class="flex items-center gap-2 text-card-foreground">
-                            <span class="text-xl font-bold text-gold font-display">CR</span>
-                            <span class="text-xs opacity-80">COMMANDER · GROUP</span>
+    <!-- Navigation Arrows -->
+    <button @click="prev()" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 w-8 h-8 md:w-12 md:h-12 flex items-center justify-center text-white/50 hover:text-gold transition-colors duration-300 bg-black/20 rounded-full md:bg-transparent">
+        <x-heroicon-o-chevron-left class="w-6 h-6 md:w-10 md:h-10" />
+    </button>
+    <button @click="next()" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 w-8 h-8 md:w-12 md:h-12 flex items-center justify-center text-white/50 hover:text-gold transition-colors duration-300 bg-black/20 rounded-full md:bg-transparent">
+        <x-heroicon-o-chevron-right class="w-6 h-6 md:w-10 md:h-10" />
+    </button>
+    
+    <!-- Slides -->
+    <div class="relative w-full bg-gray-900">
+        <template x-for="(slide, index) in slides" :key="index">
+            <div 
+                x-show="activeSlide === index"
+                x-transition:enter="transition ease-out duration-700"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-500"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="relative w-full"
+            >
+                <!-- Responsive Image (Maintains text readability since text is in image) -->
+                <img :src="slide.image_path" alt="Hero Slide" class="w-full h-auto object-contain block" />
+                
+                <!-- Overlay Container for Interactive Elements -->
+                <div class="absolute inset-0 container mx-auto px-4">
+                    <div class="relative w-full h-full">
+                        <!-- READ MORE Button Positioned Bottom Right -->
+                        <!-- Using percentage positioning to roughly match the "Who we are" text location in the image -->
+                        <div class="absolute bottom-[10%] right-[5%] md:right-[10%] lg:bottom-[15%] lg:right-[15%]">
+                            <a href="#sharaka" class="bg-white text-black text-[10px] md:text-xs lg:text-sm font-bold tracking-[0.2em] px-4 py-2 md:px-8 md:py-3 rounded hover:bg-gold hover:text-white transition-colors duration-300 shadow-lg uppercase inline-block cursor-pointer">
+                                {{ __('site.READ MORE') }}
+                            </a>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-gold text-xl font-display">Reels</span>
-                        </div>
                     </div>
-                </div>
-
-                <!-- Text content -->
-                <div class="w-full md:w-1/2 text-card">
-                    <h1 class="text-4xl md:text-5xl font-display font-bold text-gold mb-6" x-text="slides[activeSlide].title"></h1>
-                    <p class="text-card/90 leading-relaxed mb-4" x-text="slides[activeSlide].description"></p>
-                    
-                    <button class="px-6 py-2.5 border border-gold text-gold font-medium text-sm hover:bg-gold hover:text-primary-foreground transition-colors rounded">
-                        READ MORE
-                    </button>
                 </div>
             </div>
-
-            <!-- Navigation arrow -->
-            <button @click="next()" class="hidden md:flex shrink-0 w-10 h-10 rounded-full border border-muted-foreground/30 items-center justify-center text-muted-foreground/50 hover:border-gold hover:text-gold transition-colors">
-                <x-heroicon-o-chevron-right class="w-5 h-5" />
-            </button>
-        </div>
         </template>
     </div>
 </section>
+@endif

@@ -32,34 +32,49 @@ class BrandSectionResource extends Resource
         return $form
             ->schema([
                 TextInput::make('key')
+                    ->label(__('site.Key'))
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 TextInput::make('title')
+                    ->label(__('site.Title'))
                     ->required()
                     ->maxLength(255),
                 TextInput::make('subtitle')
+                    ->label(__('site.Subtitle'))
                     ->maxLength(255),
                 TextInput::make('logo_text')
+                    ->label(__('site.Logo Text'))
                     ->maxLength(255),
                 Repeater::make('description')
+                    ->label(__('site.Description'))
                     ->schema([
-                        TextInput::make('text')->hiddenLabel()->required(),
+                        TextInput::make('text')
+                            ->label(__('site.Paragraph'))
+                            ->required(),
                     ])
                     ->collapsible()
                     ->itemLabel(fn (array $state): ?string => $state['text'] ?? null),
                 Toggle::make('is_active')
+                    ->label(__('site.Is Active'))
                     ->default(true),
                     
                 Repeater::make('items')
+                    ->label(__('site.Items'))
                     ->relationship()
                     ->schema([
-                        TextInput::make('title')->maxLength(255),
+                        TextInput::make('title')
+                            ->label(__('site.Title'))
+                            ->maxLength(255),
                         FileUpload::make('image_path')
+                            ->label(__('site.Image'))
                             ->image()
                             ->required()
                             ->directory('brand-items'),
-                        TextInput::make('sort_order')->numeric()->default(0),
+                        TextInput::make('sort_order')
+                            ->label(__('site.Sort Order'))
+                            ->numeric()
+                            ->default(0),
                     ])
                     ->columns(3)
                     ->grid(3)
@@ -71,10 +86,18 @@ class BrandSectionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('key')->searchable(),
-                TextColumn::make('title')->searchable(),
-                ToggleColumn::make('is_active'),
-                TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('key')
+                    ->label(__('site.Key'))
+                    ->searchable(),
+                TextColumn::make('title')
+                    ->label(__('site.Title'))
+                    ->searchable(),
+                ToggleColumn::make('is_active')
+                    ->label(__('site.Is Active')),
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -88,6 +111,21 @@ class BrandSectionResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('site.Brand Sections');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('site.Brand Section');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('site.Brand Sections');
     }
 
     public static function getRelations(): array
